@@ -1,0 +1,9 @@
+# Dependencies
+node_modules/
+website/node_modules/
+
+# Environment files
+.env
+
+# OS files
+.DS_Store

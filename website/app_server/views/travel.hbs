@@ -1,64 +1,35 @@
-{{!-- Travel page rendered using Handlebars --}}
-{{!-- Data is provided by the travel controller following MVC principles --}}
-
-{{> header}}
-
-<h1 class="page-title">{{title}}</h1>
-
-{{!-- Search and action controls (UI only for this module) --}}
-<section class="actions">
-  <input class="input" type="text" placeholder="Search Travel" />
-  <button class="button" type="button">Add a Trip</button>
-</section>
-
-{{!-- Category tabs --}}
-<section>
-  <h2>Categories</h2>
-  <ul class="tabs">
-    {{#each categories}}
-      <li class="tab">
-        <a
-          href="/travel?category={{this}}"
-          class="tab-link {{#if (isEqual this ../selectedCategory)}}active{{/if}}"
-        >
-          {{this}} ({{lookup ../tripCounts this}})
-        </a>
-      </li>
-    {{/each}}
-  </ul>
-
-  <p class="muted"><strong>Showing:</strong> {{selectedCategory}}</p>
-</section>
-
-{{!-- Trip data table --}}
-<section>
-  <h2>Trips</h2>
-
-  <table class="table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Length</th>
-        <th>Start</th>
-        <th>Resort</th>
-        <th>Per Person</th>
-      </tr>
-    </thead>
-
-    <tbody>
-      {{#each trips}}
-        <tr>
-          <td>{{id}}</td>
-          <td>{{name}}</td>
-          <td>{{length}}</td>
-          <td>{{start}}</td>
-          <td>{{resort}}</td>
-          <td>{{perPerson}}</td>
-        </tr>
-      {{/each}}
-    </tbody>
-  </table>
-</section>
-
-{{> footer}}
+<!DOCTYPE html>
+<!-- Website template by freewebsitetemplates.com -->
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Dive Sites - Bhaccasyoniztas Beach Resort Website Template</title>
+	<link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+	<div id="background">
+		<div id="page">
+			{{> header}}
+			<div id="contents">
+				<div class="box">
+					<div>
+						<div class="body">
+							<h1>Travel</h1>
+							<ul id="sites">
+			{{#each trips}}
+								<li>
+									<a href="/travel"><img src="/images/{{this.image}}" alt="Img"></a>
+									<h2><a href="/travel">{{this.name}}</a></h2>
+									{{{this.description}}}
+								</li>
+			{{/each}}
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{{> footer}}
+	</div>
+</body>
+</html>
