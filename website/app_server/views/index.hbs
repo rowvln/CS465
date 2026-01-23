@@ -1,3 +1,9 @@
+{{!--
+  Home Page
+  This view serves as the main landing page for the Travlr Getaways application.
+  It is rendered using Handlebars through an Express route.
+--}}
+
 <!DOCTYPE html>
 <!-- Website template by freewebsitetemplates.com -->
 <html>
@@ -9,6 +15,7 @@
 <body>
 	<div id="background">
 		<div id="page">
+			{{!-- Shared header partial --}}
 			{{> header }}
 			<div id="contents">
 				<div id="adbox">
@@ -66,6 +73,7 @@
 				</div>
 			</div>
 		</div>
+		{{!-- Shared footer partial --}}
 		{{> footer }}
 	</div>
 </body>
