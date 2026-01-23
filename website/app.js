@@ -1,76 +1,51 @@
-/**
- * app.js
- *
- * Main entry point for the Travlr Getaways application.
- * This file sets up Express, configures Handlebars for MVC rendering,
- * and registers the routes used throughout the application.
- */
+var createError = require('http-errors');
+var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+var handlebars =  require('hbs');
 
-const express = require("express");
-const path = require("path");
-const hbs = require("hbs");
 
-// Import MVC route(s)
-const travelRouter = require("./app_server/routes/travel");
+// ROUTERS (note the app_server paths)
+var indexRouter = require('./app_server/routes/index');
+var travelRouter = require('./app_server/routes/travel');
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+var app = express();
 
-/**
- * Configure Handlebars as the view engine.
- * Views are rendered from the app_server/views directory,
- * and shared layout components are registered as partials.
- */
-app.set("views", path.join(__dirname, "app_server", "views"));
-app.set("view engine", "hbs");
-hbs.registerPartials(path.join(__dirname, "app_server", "views", "partials"));
+// view engine setup
+app.set('views', path.join(__dirname, 'app_server', 'views'));
+//handlebars partial
+handlebars.registerPartials(__dirname+ '/app_server/views/partials');
+app.set('view engine', 'hbs');
 
-/**
- * Custom helper used in templates to compare values.
- * This is used to highlight the active category tab on the Travel page.
- */
-hbs.registerHelper("isEqual", (a, b) => a === b);
+app.use(logger('dev'));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-/**
- * Serve static files such as CSS, images, and static HTML pages
- * from the public directory.
- */
-app.use(express.static(path.join(__dirname, "public")));
+// ROUTE USE
+app.use('/', indexRouter);
+app.use('/travel', travelRouter);
 
-/**
- * Home route
- * Currently serves a static HTML page from Module One.
- */
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
 });
 
-/**
- * Travel route
- * Routes requests to the travel MVC controller.
- */
-app.use("/travel", travelRouter);
+// error handler
+app.use(function(err, req, res, next) {
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-/**
- * Simple test endpoint to confirm the server is running.
- */
-app.get("/api/ping", (req, res) => {
-  res.json({
-    message: "Express is working",
-    timestamp: new Date().toISOString(),
-  });
+  res.status(err.status || 500);
+  res.render('error');
 });
 
-/**
- * Fallback handler for undefined routes.
- */
-app.use((req, res) => {
-  res.status(404).send("404 - Page not found");
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
 });
 
-/**
- * Start the Express server.
- */
-app.listen(PORT, () => {
-  console.log(`Travlr Getaways running at http://localhost:${PORT}`);
-});
+module.exports = app;

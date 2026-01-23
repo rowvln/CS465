@@ -14,6 +14,6 @@ const ctrlTravel = require("../controllers/travel");
  * GET /travel
  * Renders the Travel page using data prepared by the controller.
  */
-router.get("/", ctrlTravel.travelList);
+router.get("/", ctrlTravel.travel);
 
 module.exports = router;
