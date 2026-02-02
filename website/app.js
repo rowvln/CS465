@@ -10,6 +10,9 @@ var handlebars =  require('hbs');
 var indexRouter = require('./app_server/routes/index');
 var travelRouter = require('./app_server/routes/travel');
 
+// Connect to MongoDB via Mongoose
+require('./app_server/models/db');
+
 var app = express();
 
 // view engine setup
