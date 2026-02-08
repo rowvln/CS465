@@ -1,20 +1,39 @@
-/**
- * travel.js (controller)
- *
- * Controller for the Travel page.
- * Handles preparing data and rendering the view using Handlebars.
- */
-const Trip = require('../models/travlr');
+// app_server/controllers/travel.js
+// Public site pulls trip data from REST API (Separation of Concerns)
 
 const travel = async (req, res) => {
+  const tripsEndpoint = 'http://localhost:3000/api/trips';
+  const options = {
+    method: 'GET',
+    headers: {
+      'Accept': 'application/json'
+    }
+  };
+
   try {
-    const trips = await Trip.find({}).lean();
-    res.render('travel', {
+    const response = await fetch(tripsEndpoint, options);
+
+    // If API returns an error status, pass it through
+    if (!response.ok) {
+      return res.status(response.status).send(`API error: ${response.status}`);
+    }
+
+    const json = await response.json();
+
+    // Guide-required extra error handling
+    if (!Array.isArray(json)) {
+      return res.status(500).send('API did not return an array of trips.');
+    }
+    if (json.length === 0) {
+      return res.status(404).send('No trips found in the database.');
+    }
+
+    return res.render('travel', {
       title: 'Travlr Getaways',
-      trips
+      trips: json
     });
   } catch (err) {
-    res.status(500).send(err);
+    return res.status(500).send(err.message);
   }
 };
 
