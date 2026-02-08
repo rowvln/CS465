@@ -1,7 +1,7 @@
 {{!--
   Travel Page
   This view dynamically renders trip data passed from the controller.
-  Trip information is sourced from trips.json and injected using Handlebars.
+  Trip information is retrieved from the REST API (/api/trips) and injected using Handlebars.
 --}}
 
 <!DOCTYPE html>
@@ -27,12 +27,12 @@
 
 							{{!--
               				Loop through trips array provided by the controller.
-              				Each trip object represents a destination from trips.json.
+              				Each trip object represents a destination retrieved from the REST API.
             				--}}
 							<ul id="sites">
 								{{#each trips}}
 								<li>
-									<a href="api/trips/{{this.code}}"><img src="/images/{{this.image}}" alt="Img"></a>
+									<a href="/api/trips/{{this.code}}"><img src="/images/{{this.image}}" alt="Img"></a>
 									<h2><a href="/travel">{{this.name}}</a></h2>
 									{{{this.description}}}
 								</li>
