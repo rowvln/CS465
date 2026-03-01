@@ -1,0 +1,22 @@
+<div class="card h-100" *ngIf="trip">
+  <div class="card-body">
+    <h5 class="card-title">{{ trip.name }}</h5>
+    <p><strong>Code:</strong> {{ trip.code }}</p>
+    <p><strong>Resort:</strong> {{ trip.resort }}</p>
+    <p><strong>Per Person:</strong> {{ trip.perPerson }}</p>
+
+    <div class="d-flex gap-2">
+      <a *ngIf="auth.isLoggedIn()"
+         [routerLink]="['/edit', trip.code]"
+         class="btn btn-sm btn-warning">
+        Edit
+      </a>
+
+      <button *ngIf="auth.isLoggedIn()"
+              (click)="deleteTrip()"
+              class="btn btn-sm btn-danger">
+        Delete
+      </button>
+    </div>
+  </div>
+</div>

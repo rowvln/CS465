@@ -1,0 +1,19 @@
+<h2 class="mb-3">Trips</h2>
+
+<div *ngIf="loading" class="alert alert-info">
+  Loading trips...
+</div>
+
+<div *ngIf="error" class="alert alert-danger">
+  {{ error }}
+</div>
+
+<div *ngIf="!loading && !error && trips.length === 0" class="alert alert-warning">
+  No trips found.
+</div>
+
+<div class="row g-3" *ngIf="!loading && !error && trips.length > 0">
+  <div class="col-12 col-md-6 col-lg-4" *ngFor="let trip of trips">
+    <app-trip-card [trip]="trip" (deleted)="onDeleted()"></app-trip-card>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<h2 class="mb-3">Add Trip</h2>
+
+<div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+<form (ngSubmit)="onSubmit()" #tripForm="ngForm" class="row g-3">
+
+  <div class="col-md-4">
+    <label class="form-label">Trip Code</label>
+    <input class="form-control" name="code" required [(ngModel)]="trip.code" />
+  </div>
+
+  <div class="col-md-8">
+    <label class="form-label">Trip Name</label>
+    <input class="form-control" name="name" required [(ngModel)]="trip.name" />
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label">Length</label>
+    <input class="form-control" name="length" required [(ngModel)]="trip.length" placeholder="4 nights / 5 days" />
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label">Start Date</label>
+    <input class="form-control" type="date" name="start" required [(ngModel)]="trip.start" />
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label">Resort</label>
+    <input class="form-control" name="resort" required [(ngModel)]="trip.resort" placeholder="Emerald Bay, 3 stars" />
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label">Per Person</label>
+    <input class="form-control" name="perPerson" required [(ngModel)]="trip.perPerson" placeholder="799.00" />
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label">Image Filename</label>
+    <input class="form-control" name="image" [(ngModel)]="trip.image" placeholder="reef1.jpg" />
+  </div>
+
+  <div class="col-12">
+    <label class="form-label">Description</label>
+    <textarea class="form-control" rows="5" name="description" [(ngModel)]="trip.description"
+      placeholder="Add a short description..."></textarea>
+  </div>
+
+  <div class="col-12 d-flex gap-2">
+    <button class="btn btn-success" type="submit" [disabled]="tripForm.invalid || saving">
+      {{ saving ? 'Saving...' : 'Add Trip' }}
+    </button>
+    <a class="btn btn-outline-secondary" routerLink="/trips">Cancel</a>
+  </div>
+</form>

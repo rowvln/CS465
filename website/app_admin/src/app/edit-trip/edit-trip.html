@@ -1,0 +1,62 @@
+<h2 class="mb-3">Edit Trip</h2>
+
+<div *ngIf="loading" class="alert alert-info">
+  Loading trip...
+</div>
+
+<div *ngIf="error" class="alert alert-danger">
+  {{ error }}
+</div>
+
+<div *ngIf="!loading && !error && !trip" class="alert alert-warning">
+  Trip not found.
+</div>
+
+<form *ngIf="trip && !loading" (ngSubmit)="onSubmit()" #tripForm="ngForm" class="row g-3">
+  <div class="col-md-4">
+    <label class="form-label">Trip Code</label>
+    <input class="form-control" name="code" [(ngModel)]="trip.code" readonly />
+  </div>
+
+  <div class="col-md-8">
+    <label class="form-label">Trip Name</label>
+    <input class="form-control" name="name" required [(ngModel)]="trip.name" />
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label">Length</label>
+    <input class="form-control" name="length" [(ngModel)]="trip.length" />
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label">Start Date</label>
+    <input class="form-control" type="date" name="start" [(ngModel)]="trip.start" />
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label">Resort</label>
+    <input class="form-control" name="resort" [(ngModel)]="trip.resort" />
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label">Per Person</label>
+    <input class="form-control" name="perPerson" [(ngModel)]="trip.perPerson" />
+  </div>
+
+  <div class="col-md-6">
+    <label class="form-label">Image</label>
+    <input class="form-control" name="image" [(ngModel)]="trip.image" />
+  </div>
+
+  <div class="col-12">
+    <label class="form-label">Description</label>
+    <textarea class="form-control" rows="5" name="description" [(ngModel)]="trip.description"></textarea>
+  </div>
+
+  <div class="col-12 d-flex gap-2">
+    <button class="btn btn-primary" type="submit" [disabled]="tripForm.invalid || saving">
+      {{ saving ? 'Saving...' : 'Update Trip' }}
+    </button>
+    <a class="btn btn-outline-secondary" routerLink="/trips">Cancel</a>
+  </div>
+</form>
